@@ -82,7 +82,7 @@ const Keyboard = ({ win, setWin, word, guesses, setQuesses, currentGuess, setCur
     }
     return (
         <div className='mt-10 flex flex-col gap-2 text-lg select-none '>
-            <div className='flex  justify-center items-center gap-2 '>
+            <div className='flex    justify-center items-center gap-2 '>
                 {lettersFirst.split('').map((letter, key) => {
                     const isMatched = matchedLetters.includes(letter);
                     const isOrderedMatched = matchedInOrderLetters.includes(letter);
@@ -92,7 +92,7 @@ const Keyboard = ({ win, setWin, word, guesses, setQuesses, currentGuess, setCur
                     </div>)
                 })}
             </div>
-            <div className='flex  justify-center items-center gap-2'>
+            <div className='flex    justify-center items-center gap-2'>
                 {lettersSecond.split('').map((letter, key) => {
                     const isMatched = matchedLetters.includes(letter);
                     const isOrderedMatched = matchedInOrderLetters.includes(letter);
@@ -102,7 +102,7 @@ const Keyboard = ({ win, setWin, word, guesses, setQuesses, currentGuess, setCur
                     </div>)
                 })}
             </div>
-            <div className='flex  justify-center items-center gap-2 '>
+            <div className='flex    justify-center items-center gap-2 '>
                 {lettersThirth.split('').map((letter, key) => {
                     const isMatched = matchedLetters.includes(letter);
                     const isOrderedMatched = matchedInOrderLetters.includes(letter);
@@ -111,7 +111,7 @@ const Keyboard = ({ win, setWin, word, guesses, setQuesses, currentGuess, setCur
                         {letter}
                     </div>)
                 })}
-                <div className={`bg-black  h-12 w-12 flex items-center justify-center cursor-pointer  hover:bg-red-800 duration-300 rounded-lg`} onClick={handleDelete}>
+                <div className={`bg-black  h-12 w-[6.5rem] flex  items-center justify-center cursor-pointer  hover:bg-red-800 duration-300 rounded-lg`} onClick={handleDelete}>
                     <BiArrowBack />
                 </div>
             </div>

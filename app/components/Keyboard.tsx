@@ -1,11 +1,10 @@
 import React from 'react'
 import { BiArrowBack } from 'react-icons/bi'
 
-
-interface props {
+interface KeyboardProps {
     word: string | undefined;
     guesses: string[];
-    setQuesses: React.Dispatch<React.SetStateAction<string[]>>;
+    setGuesses: React.Dispatch<React.SetStateAction<string[]>>;
     currentGuess: number;
     setCurrentGuess: React.Dispatch<React.SetStateAction<number>>;
     matchedLetters: string[];
@@ -18,20 +17,18 @@ interface props {
     win: boolean | undefined;
     setWin: React.Dispatch<React.SetStateAction<boolean | undefined>>;
 }
-const Keyboard = ({ win, setWin, word, guesses, setQuesses, currentGuess, setCurrentGuess, matchedLetters, setMatchedLetters, setMatchedInOrderLetters, matchedInOrderLetters, unMatchedLetters, setUnMatchedLetters, setGame }: props) => {
+
+const Keyboard = ({ win, setWin, word, guesses, setGuesses, currentGuess, setCurrentGuess, matchedLetters, setMatchedLetters, setMatchedInOrderLetters, matchedInOrderLetters, unMatchedLetters, setUnMatchedLetters, setGame }: KeyboardProps) => {
     const lettersFirst = "QWERTYUOIPĞÜ"
     const lettersSecond = "ASDFGHJKLŞİ"
     const lettersThirth = "ZXCVBNMÖÇ"
     const handleClick = (e: React.SyntheticEvent<HTMLDivElement>) => {
         const clickedDiv = e.target as HTMLDivElement;
         const clickedLetter = clickedDiv.textContent;
-
-        setQuesses((prevGuesses: string[]) => {
+        setGuesses((prevGuesses: string[]) => {
             const newGuesses = [...prevGuesses];
             newGuesses[currentGuess] = newGuesses[currentGuess] + clickedLetter;
-
             if (newGuesses[currentGuess].length > 4) {
-
                 const guessedWord = newGuesses[currentGuess];
                 if (guessedWord === word) {
                     setGame(true)
@@ -42,8 +39,6 @@ const Keyboard = ({ win, setWin, word, guesses, setQuesses, currentGuess, setCur
                 const matchingOrderedLetters: any = [];
                 const unMatchingLetters: any = [];
                 if (word) {
-
-
                     for (let i = 0; i < guessedWord.length && i < word.length; i++) {
                         if (guessedWord[i] === word[i]) {
                             matchingLetters.push(guessedWord[i]);
@@ -60,23 +55,18 @@ const Keyboard = ({ win, setWin, word, guesses, setQuesses, currentGuess, setCur
                 setMatchedInOrderLetters((prevLetters: any) => prevLetters + matchingOrderedLetters)
                 setUnMatchedLetters((prevLetters: any) => prevLetters + unMatchingLetters)
             }
-
             return newGuesses;
         });
     };
+
     const handleDelete = (e: React.SyntheticEvent<HTMLDivElement>) => {
-        setQuesses((prevGuesses: string[]) => {
+        setGuesses((prevGuesses: string[]) => {
             const newGuesses = [...prevGuesses];
             const lastGuess = newGuesses[currentGuess];
-
             if (lastGuess.length > 0) {
                 newGuesses[currentGuess] = lastGuess.slice(0, -1);
-
-
-
                 return newGuesses;
             }
-
             return prevGuesses;
         });
     }

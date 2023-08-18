@@ -1,9 +1,7 @@
 "use client"
 import { useEffect, useState } from 'react';
-import Quess from './components/Quess'
+import Guess from './components/Guess'
 import Keyboard from './components/Keyboard';
-
-
 
 export default function Home() {
   const [word, setWord] = useState<string>()
@@ -15,6 +13,9 @@ export default function Home() {
   const [matchedInOrderLetters, setMatchedInOrderLetters] = useState<string[]>([]);
   const [game, setGame] = useState<boolean>()
   const [win, setWin] = useState<boolean>()
+  const [guesses, setGuesses] = useState<string[]>(["", "", "", "", "", ""]);
+  const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
+  const [currentGuess, setCurrentGuess] = useState(0);
   const turkish5LetterWords = [
     "BAĞIR", "BALIK", "BİBER", "BİLGİ", "BÖCEK", "ÇAYIR",
     "DAVET", "DEFNE", "DEMİR", "DOLAP", "DÜŞEN", "EŞLİK", "FİLİZ", "GÖRÜN", "GÜNEŞ",
@@ -25,12 +26,6 @@ export default function Home() {
     "YÜZME", "ZEMİN", "ZORBA",
   ];
 
-  const [guesses, setQuesses] = useState<string[]>(["", "", "", "", "", ""]);
-
-
-
-  const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
-
   useEffect(() => {
     wordChanger();
     const newTimer = setInterval(() => {
@@ -39,7 +34,6 @@ export default function Home() {
 
     setTimer(newTimer);
 
-
     return () => {
       if (timer) {
         clearInterval(timer);
@@ -47,6 +41,7 @@ export default function Home() {
       }
     };
   }, []);
+
   useEffect(() => {
     if (game) {
       if (timer) {
@@ -71,23 +66,21 @@ export default function Home() {
     setWord(turkish5LetterWords[Math.floor(Math.random() * (turkish5LetterWords.length + 1))]);
   }
 
-
-  const [currentGuess, setCurrentGuess] = useState(0);
   const playAgain = () => {
     setMatchedLetters([])
     setUnMatchedLetters([])
     setMatchedInOrderLetters([])
     setGame(undefined)
-    setQuesses(["", "", "", "", "", ""])
+    setGuesses(["", "", "", "", "", ""])
     wordChanger();
     setCurrentGuess(0)
     setTime(0)
     setWin(false)
+
     if (timer) {
       clearInterval(timer);
       console.log("Interval cleared");
     }
-
 
     const newTimer = setInterval(() => {
       setTime((time) => time + 1);
@@ -96,28 +89,27 @@ export default function Home() {
 
     setWin(false);
   }
+
   useEffect(() => {
     if (currentGuess > 5) {
       setGame(true);
     }
-
   }, [currentGuess]);
   return (
     <div className="flex h-screen flex-col items-center justify-center bg-gray-900 text-white">
       <h1 >
-       Kelime Bulma Oyunu
+        Kelime Bulma Oyunu
       </h1>
       {<div><span>{Math.floor(time / 3600).toString().padStart(2, '0')}:</span> <span>{Math.floor((time % 3600) / 60).toString().padStart(2, '0')}:</span> <span>{(time % 60).toString().padStart(2, '0')}</span> </div>}
       {guesses.map((_, key) => (
-        <Quess
+        <Guess
           key={key}
           word={word}
-          quess={guesses[key]}
-          isQuess={key < currentGuess}
+          guess={guesses[key]}
+          isGuess={key < currentGuess}
           setGame={setGame}
         />
       ))}
-
       {game &&
         <div className="absolute top-0 left-0 w-full z-10 flex items-center justify-center h-screen">
           <div className="bg-black p-10 rounded-md flex flex-col gap-4">
@@ -130,9 +122,7 @@ export default function Home() {
           </div>
         </div>}
       {currentGuess > 5 &&
-
         <div className="absolute top-0 left-0 w-full z-10 flex items-center justify-center h-screen">
-
           <div className="bg-black p-10 rounded-md flex flex-col gap-4">
             <p className="text-center text-3xl font-bold text-red-300">"Üzgünüm"</p>
             <p> Doğru kelime {word}.{currentGuess} denemede bulmayı başaramadın</p>
@@ -141,7 +131,7 @@ export default function Home() {
               onClick={playAgain}>Tekrar Oyna</button>
           </div>
         </div>}
-      {!game && currentGuess < 6 && <Keyboard win={win} setWin={setWin} matchedLetters={matchedLetters} setGame={setGame} unMatchedLetters={unMatchedLetters} setUnMatchedLetters={setUnMatchedLetters} setMatchedLetters={setMatchedLetters} matchedInOrderLetters={matchedInOrderLetters} setMatchedInOrderLetters={setMatchedInOrderLetters} word={word} guesses={guesses} setQuesses={setQuesses} currentGuess={currentGuess} setCurrentGuess={setCurrentGuess} />}
+      {!game && currentGuess < 6 && <Keyboard win={win} setWin={setWin} matchedLetters={matchedLetters} setGame={setGame} unMatchedLetters={unMatchedLetters} setUnMatchedLetters={setUnMatchedLetters} setMatchedLetters={setMatchedLetters} matchedInOrderLetters={matchedInOrderLetters} setMatchedInOrderLetters={setMatchedInOrderLetters} word={word} guesses={guesses} setGuesses={setGuesses} currentGuess={currentGuess} setCurrentGuess={setCurrentGuess} />}
     </div>
   )
 }

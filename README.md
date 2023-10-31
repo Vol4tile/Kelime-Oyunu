@@ -1,6 +1,6 @@
 # Kelime Oyunu
  Rastgele kelimeler yazıp doğru kelimeyi bulma oyunu
- Vite-React 
+
 ```bash
 npm run dev
 ```
